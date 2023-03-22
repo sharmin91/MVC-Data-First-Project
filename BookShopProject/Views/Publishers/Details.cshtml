@@ -1,0 +1,44 @@
+﻿@model BookShopProject.Models.Publisher
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="col-6 offset-2">
+        <div>
+            <h4 class="mt-5 mb-5">Publisher</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.PublisherName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PublisherName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.WebUrl)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.WebUrl)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.PublisherId }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</div>

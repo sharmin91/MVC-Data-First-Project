@@ -1,0 +1,106 @@
+﻿@model IEnumerable<BookShopProject.Models.Book>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p class=" d-flex justify-content-end">
+    @Html.ActionLink("Create New", "Create", "Books", new { @class = "btn btn-primary btn-sm" })
+</p>
+<h2 class="text-center mt-1 mb-1">Books</h2>
+<div class=" row">
+    <div class=" col-12" id="placeholder1">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author.AuthorName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PublishDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalPage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AvaiableStock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CoverPage)
+                </th>
+                <th style="width:150px;"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author.AuthorName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PublishDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalPage)
+                    </td>
+                    <td>
+                        @(item.AvaiableStock ? "yes" : "No")
+                    </td>
+                    <td>
+                        <img src="~/Uploads/@item.CoverPage" style="width:50px;" class="img-thumbnail" />
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.BookId }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Delete", "DeleteBook", new { id = item.BookId }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end">
+
+    <ul class="pagination pagination-sm">
+        <li class="page-item">
+            @Html.ActionLink("First", "Index", new { page = 1 }, @*new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder1", LoadingElementId = "loading" },*@new { @class = "page-link" })
+        </li>
+        @for (var i = 1; i <= ViewBag.TotalPage; i++)
+        {
+            if (ViewBag.Current == i)
+            {
+                <li class="page-item active">
+                    @Html.ActionLink(i.ToString(), "Index", new { page = i }, @*new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder1", LoadingElementId = "loading" },*@ new { @class = "page-link" })
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    @Html.ActionLink(i.ToString(), "Index", new { page = i }, @*new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder1", LoadingElementId = "loading" },*@ new { @class = "page-link" })
+                </li>
+            }
+
+        }
+        <li class="page-item">
+            @Html.ActionLink("Last", "Index", new { page = ViewBag.TotalPage }, @*new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder", LoadingElementId = "loading" },*@ new { @class = "page-link" })
+        </li>
+    </ul>
+
+</div>
+<div>
+    @Html.Action("IndexOrders")
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}

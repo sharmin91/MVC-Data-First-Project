@@ -1,0 +1,56 @@
+﻿@model BookShopProject.Models.Order
+@{
+    ViewBag.Title = "OrderEdit";
+}
+
+<h2>OrderEdit</h2>
+
+<div class="row">
+    <div class="col-12">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group row mb-3">
+                @Html.LabelFor(o => o.Quantity, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(o => o.Quantity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(o => o.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                @Html.LabelFor(o => o.Price, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(o => o.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(o => o.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-3">
+                @Html.LabelFor(o => o.OrderDate, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.TextBoxFor(o => o.OrderDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(o => o.OrderDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                @Html.LabelFor(b => b.Book, new { @class = "col-form-label col-2" })
+                <div class="col-4">
+                    @Html.DropDownListFor(b => b.BookId, new SelectList(ViewBag.Book, "BookId", "Title"), "Select One", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(b => b.BookId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row ">
+                <div class="col-md-offset-2 col-4">
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

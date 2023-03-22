@@ -1,0 +1,89 @@
+﻿@model IEnumerable<BookShopProject.Models.Publisher>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+
+<div class="row">
+    <div class="col-10 ">
+        <h2 class="text-center mt-5">Publishers</h2>
+    </div>
+    <div class="d-flex justify-content-end col-11 mb-4 mt-4">
+        @Html.ActionLink("Create New", "Create", "Publishers", new { @class = "btn btn-primary btn-sm" })
+    </div>
+    <div class="col-10 offset-1">
+        <table class="table table-bordered table-striped">
+            <tr class="text-center">
+                <th>
+                    @Html.DisplayNameFor(model => model.PublisherName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WebUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th style="width:220px;"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PublisherName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WebUrl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PublisherId }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Details", "Details", new { id = item.PublisherId }, new { @class = "btn btn-info btn-sm" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PublisherId }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+<div class="d-flex justify-content-around">
+
+    <ul class="pagination pagination-sm">
+        <li class="page-item">
+            @Ajax.ActionLink("First", "Index", new { page = 1 },new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder1", LoadingElementId = "loading" }, new { @class = "page-link" })
+        </li>
+        @for (var i = 1; i <= ViewBag.TotalPage; i++)
+        {
+            if (ViewBag.Current == i)
+            {
+                <li class="page-item active">
+                    @Ajax.ActionLink(i.ToString(), "Index", new { page = i },new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder1", LoadingElementId = "loading" },      new { @class = "page-link" })
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    @Ajax.ActionLink(i.ToString(), "Index", new { page = i },new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder1", LoadingElementId = "loading" },      new { @class = "page-link" })
+                </li>
+            }
+
+        }
+        <li class="page-item">
+            @Ajax.ActionLink("Last", "Index", new { page = ViewBag.TotalPage },new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "placeholder", LoadingElementId = "loading" },      new { @class = "page-link" })
+        </li>
+    </ul>
+
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}

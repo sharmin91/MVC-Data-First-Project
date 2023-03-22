@@ -1,0 +1,33 @@
+﻿@model BookShopProject.ViewModels.BookEditModel 
+@for (int i = 0; i < Model.Orders.Count; i++)
+{
+    <div class="form-group row mb-3">
+        @Html.LabelFor(o => o.Orders[i].Quantity, new { @class = "col-form-label col-2" })
+        <div class="col-10">
+            @Html.TextBoxFor(o => o.Orders[i].Quantity, new { @class = "form-control" })
+            @Html.ValidationMessageFor(o => o.Orders[i].Quantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        @Html.LabelFor(o => o.Orders[i].Price, new { @class = "col-form-label col-2" })
+        <div class="col-10">
+            @Html.TextBoxFor(o => o.Orders[i].Price, new { @class = "form-control" })
+            @Html.ValidationMessageFor(o => o.Orders[i].Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        @Html.LabelFor(o => o.Orders[i].OrderDate, new { @class = "col-form-label col-2" })
+        <div class="col-10">
+            @Html.TextBoxFor(o => o.Orders[i].OrderDate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(o => o.Orders[i].OrderDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-10">
+            <button type="button" class=" btn btn-warning">Remove</button>
+        </div>
+    </div>
+}
+
+

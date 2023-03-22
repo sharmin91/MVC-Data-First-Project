@@ -1,0 +1,135 @@
+﻿@model BookShopProject.ViewModels.BookEditModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div id="PH">
+
+</div>
+
+<div class=" row">
+    <div class="col-12">
+        @using (Ajax.BeginForm("Edit", "Books", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "POST", UpdateTargetId = "PH", OnSuccess = "onSuccess" }, new { id = "frm" }))
+        {
+            <div class="row">
+                <div class=" col-6">
+                    <h3 class=" text-center mt-2 mb-2">Add Book</h3>
+                    @Html.HiddenFor(b=>b.BookId)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group row mb-3">
+                        @Html.LabelFor(b => b.Title, new { @class = "col-form-label col-2" })
+                        <div class="col-10">
+                            @Html.TextBoxFor(b => b.Title, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(b => b.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        @Html.LabelFor(b => b.PublishDate, new { @class = "col-form-label col-2" })
+                        <div class="col-10">
+                            @Html.TextBoxFor(b => b.PublishDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(b => b.PublishDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        @Html.LabelFor(b => b.TotalPage, new { @class = "col-form-label col-2" })
+                        <div class="col-10">
+                            @Html.TextBoxFor(b => b.TotalPage, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(b => b.TotalPage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        @Html.LabelFor(b => b.Author, new { @class = "col-form-label col-2" })
+                        <div class="col-10">
+                            @Html.DropDownListFor(b => b.AuthorId, new SelectList(ViewBag.Author, "AuthorId", "AuthorName"), "Select One", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(b => b.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        @Html.LabelFor(b => b.AvaiableStock, new { @class = "col-form-label col-2" })
+                        <div class="col-10">
+                            @Html.CheckBoxFor(b => b.AvaiableStock)
+
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        @Html.LabelFor(b => b.CoverPage, new { @class = "col-form-label col-2" })
+                        <div class="col-10">
+                            <input class="form-control" id="img" type="file" />
+                            @Html.HiddenFor(b => b.CoverPage)
+                            @Html.ValidationMessageFor(b => b.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <img src="~/Uploads/@ViewBag.image"/>
+                </div>
+
+
+
+
+                <div id="order" class="col-6">
+                    <div class="row">
+                        <h5 class=" text-center mt-3 mb-3 ">Add New Order</h5>
+                        <div class="d-flex justify-content-end col-11">
+                            <button type="button" class="btn btn-primary btn-sm mb-3 " id="add">Add </button>
+                        </div>
+
+                        @Html.Action("EditOrder",Model)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-12">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $("#add").click(() => {
+            console.log("click")
+                $.ajax({
+                    type: "POST",
+                    url: "/Books/EditOrder",
+                    cache: false,
+                    data: $("#frm").serialize(),
+                    success: r => {
+                        $("#order").html(r);
+
+                    }
+                })
+        })
+        $("#img").change(() => {
+            if (document.getElementById("img").files.length) {
+                $("#CoverPage").val(document.getElementById("img").files[0].name)
+            }
+        })
+        function onSuccess(r) {
+            var formdata = new FormData;
+            formdata.append("CoverPage", document.getElementById("img").files[0]);
+            console.log(formdata)
+            $.ajax({
+                type: "POST",
+                url: "/Books/Image/"+r.id,
+                data: formdata,
+                contentType: false,
+                processData: false,
+                success: r => {
+                    console.log(r)
+                    alert("Data Save Successfully")
+                }
+
+            })
+        }
+    </script>
+}
